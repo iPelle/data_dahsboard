@@ -172,6 +172,7 @@ def insert_in_buffer(jsonData):
     del data_dict["MachineID"]
     TimeStamp = data_dict['TimeStamp']
     del data_dict["TimeStamp"]
+    allowed_variables = allowed_variables + ["ChamberCompressed"] if MachineID == "Machine 1" else allowed_variables = allowed_variables + ["Random1"]
     for dict_key in data_dict:
         if dict_key in allowed_variables:
             row_key = MachineID + "|" + str(TimeStamp) + "|" + dict_key
