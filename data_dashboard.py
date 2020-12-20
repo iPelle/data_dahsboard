@@ -48,15 +48,24 @@ def getJsonData():
     "ChamberSeparated": random.randrange(170,220),
     "LoadlockPressure": random.randrange(170,220)
     }
+    print(json_dict)
+    if json_dict['MachineID'] == "Machine 1":
+        json_dict.update({"ChamberRotated": random.randrange(170,220)})
+    else:
+        json_dict.update({"Flow": random.randrange(170,220)})
+    
     # Convert and return JSON
     data_json = json.dumps(json_dict)
+    print(data_json)
     return data_json
 
 allowed_variables =[
     "OilTemperature",
     "IntakeTemperature",
     "CoolantTemperature",
-    "MegaSensor"
+    "MegaSensor",
+    "ChamberRotated",
+    "Flow"
     ] + meta_values
 
 ####################
@@ -167,12 +176,12 @@ sensor_selector.on_change('active',sensor_selector_change)
 ####################
 
 def insert_in_buffer(jsonData):
+    print(jsonData)
     data_dict = json.loads(jsonData)
     MachineID = data_dict["MachineID"] 
     del data_dict["MachineID"]
     TimeStamp = data_dict['TimeStamp']
     del data_dict["TimeStamp"]
-    allowed_variables = allowed_variables + ["ChamberCompressed"] if MachineID == "Machine 1" else allowed_variables = allowed_variables + ["Random1"]
     for dict_key in data_dict:
         if dict_key in allowed_variables:
             row_key = MachineID + "|" + str(TimeStamp) + "|" + dict_key
